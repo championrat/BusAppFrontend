@@ -1,1 +1,1 @@
-const API_URL = 'https://ec2-13-215-179-63.ap-southeast-1.compute.amazonaws.com'
+const API_URL = 'https://api.busapp.shankaradarsh.in';
