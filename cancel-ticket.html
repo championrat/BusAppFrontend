@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancel Ticket</title>
+    <script src="js/config.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/cards.css">
+    <link rel="stylesheet" href="css/header.css">
+</head>
+<!-- Header -->
+<header>
+    <div class="header-container">
+        <!-- Left side navigation links -->
+        <nav class="nav-left">
+            <!-- User Links -->
+            <div id="user-links-left">
+                <a href="index.html">Home</a>
+                <a href="search-buses.html">Bus Search</a>
+                <a href="book-ticket.html">Book Tickets</a>
+                <a href="my-tickets.html">My Tickets</a>
+                <a href="retrieve-ticket.html">Retrieve Ticket</a>
+            </div>
+
+            <!-- Admin Links -->
+            <div id="admin-links-left" style="display: none;">
+                <a href="my-buses.html">My Buses</a>
+                <a href="add-bus.html">Add Bus</a>
+                <a href="cancel-bus.html">Cancel Bus</a>
+                <a href="admin-dashboard.html">Admin Dashboard</a> 
+            </div>
+
+            <!-- Driver Links -->
+            <div id="driver-links-left" style="display: none;">
+                <a href="driver-dashboard.html">Driver Dashboard</a>
+                <a href="driver-kyc.html">Driver KYC</a>
+                <a href="drive-bus.html">Drive Bus</a>
+                <a href="driver-guidelines.html">Driver Guidelines</a>
+            </div>
+        </nav>
+
+        <!-- Right side user login or username -->
+        <div class="nav-right">
+            <span id="user-links">
+                <a href="login.html" id="login-link">Login</a> |
+                <a href="signup.html" id="signup-link">Sign Up</a>
+            </span>
+            <span id="username-links" style="display: none;">
+                <span id="username"></span> | 
+                <a href="user-details.html" id="user-details-link">Profile</a> | 
+                <a href="logout.html" id="logout-link">Logout</a>
+            </span>
+
+            <!-- Admin-specific links -->
+            <span id="admin-links" style="display: none;">
+            </span>
+
+            <!-- Driver-specific links -->
+            <span id="driver-links" style="display: none;">
+            </span>
+        </div>
+    </div>
+</header>
+
+
+<body>
+
+    <h2>Cancel Ticket</h2>
+
+    <!-- Ticket Information Card -->
+    <div class="card-container" id="form-container">
+        <div class="card" id="ticket-info">
+            <h3>Ticket No: <span id="ticket-no"></span></h3>
+            <p><strong>Bus No:</strong> <span id="bus-no"></span></p>
+            <p><strong>Passenger:</strong> <span id="passenger-name"></span></p>
+            <p><strong>Age:</strong> <span id="passenger-age"></span></p>
+            <p><strong>Account Name:</strong> <span id="acct-name"></span></p>
+            
+            <!-- Confirmation Button -->
+            <button id="confirm-cancel-btn" class="cancel-btn">Confirm Cancellation</button>
+        </div>
+
+        <!-- Success Message -->
+        <div id="success-message" class="card" style="display: none;">
+            <h3>Success</h3>
+            <br>
+            <p>Ticket has been successfully cancelled.</p>
+            <button id="redirect-btn" class="button">Go to Home</button>
+        </div>
+
+        <!-- Error Message -->
+        <div id="error-message" class="error" style="display: none;"></div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/cancel-ticket.js"></script>
+    <script src="js/header.js"></script>
+
+</body>
+</html>

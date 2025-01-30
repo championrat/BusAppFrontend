@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Dashboard</title>
+    <script src="js/config.js"></script>
+    <link rel="stylesheet" href="css/styles.css"> <!-- Your external styles.css link -->
+    <link rel="stylesheet" href="css/header.css">
+</head>
+<body>
+
+<!-- Header -->
+<header>
+    <div class="header-container">
+        <!-- Left side navigation links -->
+        <nav class="nav-left">
+            <!-- User Links -->
+            <div id="user-links-left">
+                <a href="index.html">Home</a>
+                <a href="search-buses.html">Bus Search</a>
+                <a href="book-ticket.html">Book Tickets</a>
+                <a href="my-tickets.html">My Tickets</a>
+                <a href="retrieve-ticket.html">Retrieve Ticket</a>
+            </div>
+
+            <!-- Admin Links -->
+            <div id="admin-links-left" style="display: none;">
+                <a href="my-buses.html">My Buses</a>
+                <a href="add-bus.html">Add Bus</a>
+                <a href="cancel-bus.html">Cancel Bus</a>
+                <a href="admin-dashboard.html">Admin Dashboard</a> 
+            </div>
+
+            <!-- Driver Links -->
+            <div id="driver-links-left" style="display: none;">
+                <a href="driver-dashboard.html">Driver Dashboard</a>
+                <a href="driver-kyc.html">Driver KYC</a>
+                <a href="drive-bus.html">Drive Bus</a>
+                <a href="driver-guidelines.html">Driver Guidelines</a>
+            </div>
+        </nav>
+
+        <!-- Right side user login or username -->
+        <div class="nav-right">
+            <span id="user-links">
+                <a href="login.html" id="login-link">Login</a> |
+                <a href="signup.html" id="signup-link">Sign Up</a>
+            </span>
+            <span id="username-links" style="display: none;">
+                <span id="username"></span> | 
+                <a href="user-details.html" id="user-details-link">Profile</a> | 
+                <a href="logout.html" id="logout-link">Logout</a>
+            </span>
+
+            <!-- Admin-specific links -->
+            <span id="admin-links" style="display: none;">
+            </span>
+
+            <!-- Driver-specific links -->
+            <span id="driver-links" style="display: none;">
+            </span>
+        </div>
+    </div>
+</header>
+
+    <!-- Main content -->
+    <main>
+        <section class="dashboard-intro">
+            <h2>Welcome to Your Driver Dashboard</h2>
+            <p>As a driver, you can manage various aspects of your role directly through this dashboard.</p>
+        </section>
+
+        <section class="dashboard-sections">
+            <div class="dashboard-section">
+                <h3>Driver KYC</h3>
+                <p>
+                    Complete your KYC (Know Your Customer) process to verify your identity. This process includes uploading documents such as your driver’s license and a selfie for liveness verification.
+                </p>
+                <p><a href="driver-kyc.html" class="button-link">Go to Driver KYC</a></p>
+            </div>
+
+            <div class="dashboard-section">
+                <h3>Drive Bus</h3>
+                <p>
+                    Choose a bus that you are authorized to drive. Once selected, you will be assigned to the bus and can start managing the routes.
+                </p>
+                <p><a href="drive-bus.html" class="button-link">Choose Your Bus</a></p>
+            </div>
+
+            <div class="dashboard-section">
+                <h3>Driver Guidelines</h3>
+                <p>
+                    Familiarize yourself with the company’s driver guidelines to ensure safe and efficient driving. This section includes rules and tips for a smooth experience while driving for our service.
+                </p>
+                <p><a href="driver-guidelines.html" class="button-link">Read the Guidelines</a></p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Your Company Name. All rights reserved.</p>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/header.js"></script>
+</body>
+</html>

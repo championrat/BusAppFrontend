@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/cards.css">
+    <link rel="stylesheet" href="css/header.css">
+    <script src="js/config.js"></script>
+</head>
+<!-- Header -->
+<header>
+    <div class="header-container">
+        <!-- Left side navigation links -->
+        <nav class="nav-left">
+            <!-- User Links -->
+            <div id="user-links-left">
+                <a href="index.html">Home</a>
+                <a href="search-buses.html">Bus Search</a>
+                <a href="book-ticket.html">Book Tickets</a>
+                <a href="my-tickets.html">My Tickets</a>
+                <a href="retrieve-ticket.html">Retrieve Ticket</a>
+            </div>
+
+            <!-- Admin Links -->
+            <div id="admin-links-left" style="display: none;">
+                <a href="my-buses.html">My Buses</a>
+                <a href="add-bus.html">Add Bus</a>
+                <a href="cancel-bus.html">Cancel Bus</a>
+                <a href="admin-dashboard.html">Admin Dashboard</a> 
+            </div>
+
+            <!-- Driver Links -->
+            <div id="driver-links-left" style="display: none;">
+                <a href="driver-dashboard.html">Driver Dashboard</a>
+                <a href="driver-kyc.html">Driver KYC</a>
+                <a href="drive-bus.html">Drive Bus</a>
+                <a href="driver-guidelines.html">Driver Guidelines</a>
+            </div>
+        </nav>
+
+        <!-- Right side user login or username -->
+        <div class="nav-right">
+            <span id="user-links">
+                <a href="login.html" id="login-link">Login</a> |
+                <a href="signup.html" id="signup-link">Sign Up</a>
+            </span>
+            <span id="username-links" style="display: none;">
+                <span id="username"></span> | 
+                <a href="user-details.html" id="user-details-link">Profile</a> | 
+                <a href="logout.html" id="logout-link">Logout</a>
+            </span>
+
+            <!-- Admin-specific links -->
+            <span id="admin-links" style="display: none;">
+            </span>
+
+            <!-- Driver-specific links -->
+            <span id="driver-links" style="display: none;">
+            </span>
+        </div>
+    </div>
+</header>
+
+
+<body>
+
+    <h2>User Profile</h2>
+
+    <div id="card-container" class="card-container">
+        <div id="error-message" class="error" style="display: none;"></div>
+
+        <!-- User Info Card -->
+        <div class="card" id="user-info">
+            <h3>User Profile</h3>
+            <p><strong>Username:</strong> <span id="user-name"></span></p>
+            <p><strong>Email:</strong> <span id="email"></span></p>
+            <p><strong>Name:</strong> <span id="full-name"></span></p>
+            <p><strong>Age:</strong> <span id="age"></span></p>
+            <p><strong>User Groups:</strong> <span id="user-groups"></span></p>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/user-profile.js"></script>
+    <script src="js/header.js"></script>
+    <script src="js/auth.js"></script>
+
+</body>
+</html>

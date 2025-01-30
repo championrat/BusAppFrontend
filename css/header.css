@@ -1,0 +1,38 @@
+/* Basic styles for the header */
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    font-family: Arial, sans-serif;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-left a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+.nav-left a:hover {
+    text-decoration: underline;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+}
+
+.nav-right a {
+    color: white;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+.nav-right a:hover {
+    text-decoration: underline;
+}
