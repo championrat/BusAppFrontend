@@ -20,9 +20,10 @@ function startKycValidation() {
                 dateOfbirth: "19-11-2001"
             };
             console.log(appToken);
+            tid = crypto.randomUUID();
 
             // Step 2: Initialize the SDK
-            const hyperKycConfig = new window.HyperKycConfig(appToken, workflowId, '1');
+            const hyperKycConfig = new window.HyperKycConfig(appToken, workflowId, tid);
             hyperKycConfig.setInputs(customInputs);
 
             console.log('config done');
