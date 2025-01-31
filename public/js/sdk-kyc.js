@@ -21,6 +21,7 @@ function startKycValidation() {
             };
             console.log(appToken);
             tid = crypto.randomUUID();
+            console.log(tid);
 
             // Step 2: Initialize the SDK
             const hyperKycConfig = new window.HyperKycConfig(appToken, workflowId, tid);
