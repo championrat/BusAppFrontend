@@ -1,39 +1,30 @@
 let lastKycResult = null; // Global variable to hold the last KYC result
 
 function startKycValidation() {
-    // Clear previous error messages
     document.getElementById('error-message').style.display = 'none';
+    document.getElementById('start-kyc').style.display = 'none'; // Hide Start KYC button
 
-    // Step 1: Get the token from the API
     $.ajax({
-        url: `${API_URL}/api/app-token/`, // Replace with actual API endpoint
-        headers: {
-            'Authorization': localStorage.getItem('token') // Replace with actual token
-        },
+        url: `${API_URL}/api/app-token/`,
+        headers: { 'Authorization': localStorage.getItem('token') },
         method: 'GET',
         success: function (response) {
             const appToken = response.appToken;
-            const workflowId = 'busDriverKYC' // Insert workflowID after MR approval
+            const workflowId = 'busDriverKYC'; // Insert workflowID after MR approval
             const customInputs = {
                 name: "xyz",
                 phone: "1234567890",
                 dateOfbirth: "19-11-2001"
             };
-            console.log(appToken);
-            tid = crypto.randomUUID();
-            console.log(tid);
+            
+            const tid = crypto.randomUUID();
+            console.log("Transaction ID:", tid);
 
-            // Step 2: Initialize the SDK
             const hyperKycConfig = new window.HyperKycConfig(appToken, workflowId, tid);
             hyperKycConfig.setInputs(customInputs);
 
-            console.log('config done');
-
-            // Step 3: Initialize the handler function
-            
-            // Initialize the SDK with the config and handler
             window.HyperKYCModule.launch(hyperKycConfig, handler);
-            console.log('launched');
+            console.log('HyperKYC launched');
         },
         error: function () {
             showErrorMessage("Failed to retrieve token from API.");
@@ -41,92 +32,150 @@ function startKycValidation() {
     });
 
     const handler = (HyperKycResult) => {
-        lastKycResult = HyperKycResult; // Save the SDK result to a global variable
+        lastKycResult = HyperKycResult; // Store response globally
 
+        console.log("KYC Result:", HyperKycResult);
+
+        if (!HyperKycResult.transactionId) {
+            showErrorMessage("Missing transaction ID from KYC result.");
+            return;
+        }
+
+        // Process KYC status
         switch (HyperKycResult.status) {
             case "user_cancelled":
-                showErrorMessage("User cancelled the KYC process.");
+                showStatusMessage("KYC Process interrupted by user");
+                document.getElementById('start-kyc').innerText = "Retry KYC";
+                document.getElementById('start-kyc').style.display = 'block';
                 showManualKycButton();
                 break;
+
             case "error":
-                showErrorMessage("An error occurred during the KYC process.");
+                showStatusMessage("KYC Process ended with error");
+                document.getElementById('start-kyc').innerText = "Retry KYC";
+                document.getElementById('start-kyc').style.display = 'block';
                 showManualKycButton();
                 break;
+
             case "auto_approved":
-                // Show the driver details form when KYC is approved
+                showStatusMessage("KYC Process ended with approval")
+                populateDriverDetails(HyperKycResult.details);
                 document.getElementById('driver-details-form').style.display = 'block';
                 break;
+
             case "auto_declined":
-                showErrorMessage("KYC was auto declined.");
+                showStatusMessage("KYC Process ended with rejection");
                 showManualKycButton();
                 break;
+
             case "needs_review":
-                showErrorMessage("KYC requires manual review.");
-                showManualKycButton();
+                showStatusMessage("KYC Process ended, manual review required. Contact sysadmin");
+                setTimeout(function() {
+                    window.location.href = 'driver-dashboard.html';  // Redirect to login page
+                }, 5000);
                 break;
+
         }
     };
 }
 
-function showErrorMessage(message) {
-    const errorMessageDiv = document.getElementById('error-message');
-    errorMessageDiv.innerHTML = message;
-    errorMessageDiv.style.display = 'block';
+// Populate form fields from SDK response
+function populateDriverDetails(details) {
+    document.getElementById('d_name').value = details.name || '';
+
+    // Convert date format from DD-MM-YYYY to YYYY-MM-DD for input fields
+    document.getElementById('d_dob').value = formatDate(details.dob);
+    document.getElementById('dl_doe').value = formatDate(details.dl_doe);
+    document.getElementById('dl_no').value = details.dl_no;
+}
+
+// Convert DD-MM-YYYY to YYYY-MM-DD
+function formatDate(dateStr) {
+    if (!dateStr) return '';
+    const parts = dateStr.split('-');
+    return parts.length === 3 ? `${parts[2]}-${parts[1]}-${parts[0]}` : '';
 }
 
 function showManualKycButton() {
-    // Show the manual KYC button at the bottom of the page
-    const manualKycButton = document.getElementById('manual-kyc-button');
-    manualKycButton.style.display = 'block';
+    document.getElementById('manual-kyc-button').style.display = 'block';
 }
 
 function redirectToManualKYC() {
-    // Redirect to the manual KYC page
     window.location.href = 'driver-manual-kyc.html';
 }
 
-// Handle the driver form submission
-$(document).ready(function () {
-    $('#driver-kyc-form').on('submit', function (e) {
-        e.preventDefault();  // Prevent default form submission
+function showStatusMessage(message, type) {
+    const statusMessageDiv = document.getElementById('status-message');
+    statusMessageDiv.innerText = message;
+    statusMessageDiv.style.display = 'block';
+    
+    if (type === 'success') {
+        statusMessageDiv.style.backgroundColor = 'green';
+        statusMessageDiv.style.color = 'white';
+    } else if (type === 'error') {
+        statusMessageDiv.style.backgroundColor = 'red';
+        statusMessageDiv.style.color = 'white';
+    }
 
-        var formData = new FormData(this);  // Collect form data
+    // Clear the message when user interacts
+    document.body.addEventListener('click', clearStatusMessage, { once: true });
+}
+
+function clearStatusMessage() {
+    document.getElementById('status-message').style.display = 'none';
+}
+
+// Modify form submission success/error handling:
+$('#driver-kyc-form').on('submit', function (e) {
+    e.preventDefault();  
+
+    var formData = new FormData(this);
+    var formDataObject = {};
+    formData.forEach((value, key) => {
+        formDataObject[key] = value;
+    });
+
+    console.log('Sending form data...');
+    $.ajax({
+        url: `${API_URL}/api/sdk-kyc/`,
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(formDataObject),
+        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('access_token') },
+        success: function (response) {
+            // const response = JSON.parse(xhr.responseText);
+
+            if (!response || response == "undefined") {
+                console.error("Received an empty or undefined response from API");
+                return;
+            }
         
-        if (lastKycResult) {
-            // Prepare the data as a JSON object
-            var formDataObject = {
-                driver_details: {}, // Collect the form data into an object
-            };
-
-            formData.forEach((value, key) => {
-                formDataObject[key] = value;
-            });
-
-            // Append the SDK result as JSON
-            formDataObject.sdk_result = lastKycResult;
-
-            // Now send the data as a JSON object
-            console.log('Sending form data with SDK result...');
-            $.ajax({
-                url: `${API_URL}/api/sdk-kyc/`,  // Your Django API endpoint
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(formDataObject), // Send data as a JSON string
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-                },
-                success: function (response) {
-                    $('#response-message').html('<p class="success">' + response.message + '</p>');
-                    if (response.driver_info) {
-                        $('#response-message').append('<p>Driver Name: ' + response.driver_info.full_name + '</p>');
-                        $('#response-message').append('<p>License Expiry: ' + response.driver_info.license_expiry + '</p>');
+            try {
+                // const response = JSON.parse(xhr.responseText);
+                showStatusMessage("Form submitted successfully!", "success");
+                console.log(response);
+                setTimeout(function(response){
+                    try {
+                        clearStatusMessage();
+                        res = JSON.parse(response);
+                        mes = JSON.stringify(res);
+                        console.log(res);
+                        console.log(mes);
+                        console.log(mes.message);
+                        showStatusMessage(response, "success");
+                    } catch (error) {
+                        showStatusMessage("KYC SUCCESSFULL, DRIVER REGISTERED");
                     }
-                },
-                error: function (xhr, status, error) {
-                    var errorMessage = xhr.responseJSON ? xhr.responseJSON.message : 'An error occurred';
-                    $('#response-message').html('<p class="error">' + errorMessage + '</p>');
-                }
-            });
+                }, 3000)
+            } catch (error) {
+                console.error("Failed to parse JSON:", error);
+            }
+
+
+        },
+        error: function (xhr) {
+            const response = JSON.parse(xhr.responseText);
+            showStatusMessage(response.message, "error");
         }
     });
 });

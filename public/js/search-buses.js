@@ -26,7 +26,7 @@ $(document).ready(function() {
                     <p><strong>Departure Time:</strong> ${bus.Departure_Time}</p>
                     <p><strong>Destinations:</strong> ${destinations}</p>
                     <p><strong>Seats Available:</strong> ${seatsAvailable}</p>
-                    <button class="book-btn" onclick="window.location.href='/book-ticket.html?bus_no=${bus.Bus_No}&destinations=${encodeURIComponent(destinations)}'">Book Ticket</button>
+                    <button class="book-btn" onclick="window.location.href='book-ticket.html?bus_no=${bus.Bus_No}&destinations=${encodeURIComponent(destinations)}'">Book Ticket</button>
                 </div>
             `);
         });

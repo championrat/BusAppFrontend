@@ -12,7 +12,7 @@ $(document).ready(function () {
             localStorage.removeItem('user_name');
 
             // Redirect to the login page or confirmation page
-            window.location.href = '/login.html';
+            window.location.href = 'login.html';
         },
         error: function () {
             alert('Logout failed. Please try again.');

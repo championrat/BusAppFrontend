@@ -32,7 +32,7 @@ $(document).ready(function() {
             if (response.message) {
                 $('#message').html('<p class="success">' + response.message + '</p>');
                 setTimeout(function() {
-                    window.location.href = '/login.html';  // Redirect to login page
+                    window.location.href = 'login.html';  // Redirect to login page
                 }, 2000);
             } else {
                 $('#message').html('<p class="error">An error occurred. Please try again later.' + response.message + '</p>');

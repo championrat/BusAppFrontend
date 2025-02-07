@@ -1,1 +1,7 @@
 legacy/
+.github/
+.firebase/
+.firebaserc
+firebase.json
+self_signed_ssl_DBusApp
+.firebase/hosting.cHVibGlj.cache

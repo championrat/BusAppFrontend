@@ -52,7 +52,7 @@ function checkAndRefreshToken() {
 function logout() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
-    window.location.href = '/login.html'; // Redirect to login page
+    window.location.href = 'login.html'; // Redirect to login page
 }
 
 // Check token expiration on page load
